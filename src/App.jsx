@@ -5,8 +5,8 @@ import JournalForm from './components/JournalForm/JournalForm';
 import JournalList from './components/JournalList/JournalList';
 import Body from './layouts/Body/Body';
 import LeftPanel from './layouts/LeftPanel/LeftPanel';
-import Button from './components/Button/Button';
 import { useLocalStorage } from './hooks/use-localstorage.hook';
+import { UserContextProvidev } from './context/user.context';
 
 
 function mapItems(items) {
@@ -26,22 +26,25 @@ function App() {
 		setItems([...mapItems(items), {			
 			text: item.text,
 			title: item.title,
+			...item,
 			date: new Date(item.date),
 			id: items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1
 		}]);
 	};
 
 	return (
-		<div className='app'>
-			<LeftPanel>
-				<Header><Button></Button></Header>
-				<JournalAddButton></JournalAddButton>
-				<JournalList items={mapItems(items)}/>
-			</LeftPanel>
-			<Body>
-				<JournalForm onSubmit={addItem}></JournalForm>
-			</Body>
-		</div>
+		<UserContextProvidev>
+			<div className='app'>
+				<LeftPanel>
+					<Header/>
+					<JournalAddButton/>
+					<JournalList items={mapItems(items)} />
+				</LeftPanel>
+				<Body>
+					<JournalForm onSubmit={addItem}/>
+				</Body>
+			</div>
+		</UserContextProvidev>
 	);
   
 }
