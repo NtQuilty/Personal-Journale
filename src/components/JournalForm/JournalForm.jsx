@@ -35,7 +35,7 @@ function JournalForm({ onSubmit, data, onDelete }) {
 			dispatchForm({ type: 'SET_VALUE', payload: { userId }});
 		}
 		dispatchForm({ type: 'SET_VALUE', payload: { ...data }});
-	}, [data, userId]);
+	}, [data]);
 
 	useEffect(() => {
 		let timerId;
@@ -53,6 +53,7 @@ function JournalForm({ onSubmit, data, onDelete }) {
 	useEffect(() => {
 		if (isFormReadyToSubmit ) {
 			onSubmit(values);
+			dispatchForm({ type: 'CLEAR' });
 			dispatchForm({ type: 'SET_VALUE', payload: { userId }});
 		}
 	}, [isFormReadyToSubmit, values, onSubmit, userId]);
@@ -69,7 +70,6 @@ function JournalForm({ onSubmit, data, onDelete }) {
 	const addJournalItem = (e) => {
 		e.preventDefault();
 		dispatchForm({ type: 'SUBMIT'});
-		
 	};
 
 	const deleteJournalItem = () => {
